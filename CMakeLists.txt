@@ -13,7 +13,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build.${CMAKE_BU
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build.${CMAKE_BUILD_TYPE}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build.${CMAKE_BUILD_TYPE}")
 
-include_directories(libs src /usr/local/include)
+include_directories(libs libs/libev src /usr/local/include)
 link_directories(${CMAKE_RUNTIME_OUTPUT_DIRECTORY} /usr/lib /usr/local/lib)
 
 set(INSTALL_PREFIX "/usr/local/limd")

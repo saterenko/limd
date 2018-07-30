@@ -13,4 +13,5 @@ target_link_libraries(${PROJECT_NAME}
 limd_base_lib
 limd_server_lib
 xxhash_lib
+ev
 pthread)
