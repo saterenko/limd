@@ -1,0 +1,7 @@
+CMakeCache.txt
+CMakeFiles
+Makefile
+build.Debug
+build.Release
+-MQ
+*.cmake
