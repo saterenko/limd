@@ -11,6 +11,7 @@ int
 main(int argc, char **argv)
 {
     Log::init("limd.log");
+    Log::setLevel(LOG_DEBUG);
     try {
         Server server("localhost:13001");
         server.start();
