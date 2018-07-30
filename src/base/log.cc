@@ -16,7 +16,7 @@ using namespace limd;
 
 Log *Log::instance_ = NULL;
 
-Log::Log(): currentTime_(0), fileSize_(0)
+Log::Log(const std::string& file): file_(file), currentTime_(0), fileSize_(0)
 {
     initConfig();
     /**/
@@ -36,7 +36,6 @@ void
 Log::initConfig()
 {
     /*  default  */
-    file_ = "default.log";
     level_ = LOG_ERROR;
     maxFileSize_ = 0;
     maxFilesCount_ = 0;
@@ -113,9 +112,9 @@ Log::initConfig()
 }
 
 void
-Log::init()
+Log::init(const std::string& file)
 {
-    auto log = new Log();
+    auto log = new Log(file);
     if (instance_) {
         delete instance_;
     }

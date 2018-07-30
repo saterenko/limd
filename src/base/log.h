@@ -37,7 +37,7 @@ public:
 class Log
 {
 public:
-    static void init();
+    static void init(const std::string& file);
     static void clean();
     static void fork();
     static void reopen();
@@ -50,7 +50,7 @@ public:
     static int getMaxLineSize();
 
 private:
-    Log();
+    Log(const std::string& file);
     Log(const Log&);
     Log& operator=(const Log&);
     ~Log();
