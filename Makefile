@@ -2,8 +2,8 @@ CC=gcc
 
 SRC=./src
 BUILD=./build
-CFLAGS=-std=gnu99 -g -Wall
-# CFLAGS = -std=gnu99 -g -O3 -fno-strict-aliasing
+#CFLAGS=-std=gnu99 -g -Wall
+CFLAGS = -std=gnu99 -g -O3 -fno-strict-aliasing
 INCS=-I$(SRC)
 LDLIBS=-lev -pthread
 SRC_FILES=$(wildcard $(SRC)/*.c)
