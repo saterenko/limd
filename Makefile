@@ -19,7 +19,7 @@ clean:
 	rm -rf $(BUILD)
 
 $(EXE_FILES): $(OBJ_FILES)
-	$(CC) $(LDLIBS) $(OBJ) -o $@ $^
+	$(CC) $(OBJ) -o $@ $^ $(LDLIBS)
 
 $(BUILD)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) $(INCS) -c -o $@ $<

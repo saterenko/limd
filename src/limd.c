@@ -2,28 +2,28 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "limd_log.h"
+#include "cor_log.h"
 
 
 typedef struct
 {
-    limd_log_t *log;
-} limd_ctx_t;
+    cor_log_t *log;
+} lim_ctx_t;
 
 int
 main(int argc, char **argv)
 {
-    limd_ctx_t ctx;
-    memset(&ctx, 0, sizeof(limd_ctx_t));
+    lim_ctx_t ctx;
+    memset(&ctx, 0, sizeof(lim_ctx_t));
     /**/
-    ctx.log = limd_log_new("limd.log", limd_log_level_debug);
+    ctx.log = cor_log_new("limd.log", cor_log_level_debug);
     if (!ctx.log) {
-        fprintf(stderr, "can't limd_log_new\n");
+        fprintf(stderr, "can't cor_log_new\n");
         return 1;
     }
     /**/
     getchar();
     /**/
-    limd_log_delete(ctx.log);
+    cor_log_delete(ctx.log);
     return 0;
 }

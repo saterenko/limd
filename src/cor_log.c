@@ -1,10 +1,10 @@
-#include "limd_log.h"
+#include "cor_log.h"
 #include <sys/time.h>
 
-limd_log_t *
-limd_log_new(const char *file, int level) 
+cor_log_t *
+cor_log_new(const char *file, int level) 
 {
-    limd_log_t *log = (limd_log_t *) malloc(sizeof(limd_log_t));
+    cor_log_t *log = (cor_log_t *) malloc(sizeof(cor_log_t));
     if (!log) {
         fprintf(stderr, "can't malloc in %s:%d\n", __FILE__, __LINE__);
         return NULL;
@@ -17,37 +17,37 @@ limd_log_new(const char *file, int level)
     }
     log->ts = 0;
     log->level = level;
-    log->max_line_size = LIMD_LOG_STR_MAX_SIZE;
+    log->max_line_size = COR_LOG_STR_MAX_SIZE;
     pid_t pid = getpid();
-    snprintf(log->pid_str, LIMD_LOG_PID_STR_SIZE, "(%lu)", (unsigned long) pid);
+    snprintf(log->pid_str, COR_LOG_PID_STR_SIZE, "(%lu)", (unsigned long) pid);
 
     return log;
 }
 
 void
-limd_log_set_pid(limd_log_t *log, pid_t pid)
+cor_log_set_pid(cor_log_t *log, pid_t pid)
 {
-    snprintf(log->pid_str, LIMD_LOG_PID_STR_SIZE, "(%lu)", (unsigned long) pid);
+    snprintf(log->pid_str, COR_LOG_PID_STR_SIZE, "(%lu)", (unsigned long) pid);
 }
 
 void
-limd_log_set_str_level(limd_log_t *log, const char *level)
+cor_log_set_str_level(cor_log_t *log, const char *level)
 {
     if (strcmp(level, "debug") == 0) {
-        log->level = limd_log_level_debug;
+        log->level = cor_log_level_debug;
     } else if (strcmp(level, "notice") == 0) {
-        log->level = limd_log_level_info;
+        log->level = cor_log_level_info;
     } else if (strcmp(level, "warn") == 0) {
-        log->level = limd_log_level_warn;
+        log->level = cor_log_level_warn;
     } else {
-        log->level = limd_log_level_error;
+        log->level = cor_log_level_error;
     }
 }
 
 void
-limd_log_put(limd_log_t *log, enum limd_log_level_e level, const char *file, int line, const char *format, ...) 
+cor_log_put(cor_log_t *log, enum cor_log_level_e level, const char *file, int line, const char *format, ...) 
 {
-    static const char *limd_log_levels[] = {"error", "warn", "info", "debug"};
+    static const char *cor_log_levels[] = {"error", "warn", "info", "debug"};
     if (!log || log->level < level) {
         return;
     }
@@ -57,15 +57,15 @@ limd_log_put(limd_log_t *log, enum limd_log_level_e level, const char *file, int
     if (tmv.tv_sec != log->ts) {
         struct tm tm;
         localtime_r(&tmv.tv_sec, &tm);
-        snprintf(log->ts_str, LIMD_LOG_TIME_STR_SIZE, "[%04d-%02d-%02d %02d:%02d:%02d.", 
+        snprintf(log->ts_str, COR_LOG_TIME_STR_SIZE, "[%04d-%02d-%02d %02d:%02d:%02d.", 
             (tm.tm_year + 1900), (tm.tm_mon + 1), tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
         log->ts = tmv.tv_sec;
     }
     /*  write line begining  */
-    char buf[LIMD_LOG_STR_SIZE];
+    char buf[COR_LOG_STR_SIZE];
     char *p = buf;
     char *begin = p;
-    char *end = p + LIMD_LOG_STR_SIZE;
+    char *end = p + COR_LOG_STR_SIZE;
     if (file) {
         const char *k = strrchr(file, '/');
         if (!k) {
@@ -73,12 +73,12 @@ limd_log_put(limd_log_t *log, enum limd_log_level_e level, const char *file, int
         } else {
             k++;
         }
-        int rc = snprintf(p, LIMD_LOG_STR_SIZE, "%s%u] %s %s in %s:%d ", log->ts_str,
-            (unsigned int) tmv.tv_usec, log->pid_str, limd_log_levels[level], k, line);
+        int rc = snprintf(p, COR_LOG_STR_SIZE, "%s%u] %s %s in %s:%d ", log->ts_str,
+            (unsigned int) tmv.tv_usec, log->pid_str, cor_log_levels[level], k, line);
         p += rc;
     } else {
-        int rc = snprintf(p, LIMD_LOG_STR_SIZE, "%s%u] %s %s ", log->ts_str,
-            (unsigned int) tmv.tv_usec, log->pid_str, limd_log_levels[level]);
+        int rc = snprintf(p, COR_LOG_STR_SIZE, "%s%u] %s %s ", log->ts_str,
+            (unsigned int) tmv.tv_usec, log->pid_str, cor_log_levels[level]);
         p += rc;
     }
     /*  write message  */
@@ -98,7 +98,7 @@ limd_log_put(limd_log_t *log, enum limd_log_level_e level, const char *file, int
             break;
         }
         if (rc >= end - p) {
-            size_t size = LIMD_LOG_STR_SIZE;
+            size_t size = COR_LOG_STR_SIZE;
             while (size <= rc) {
                 size = (size << 1) - (size >> 1);
             }
@@ -130,7 +130,7 @@ limd_log_put(limd_log_t *log, enum limd_log_level_e level, const char *file, int
 }
 
 void
-limd_log_delete(limd_log_t *log) 
+cor_log_delete(cor_log_t *log) 
 {
     if (log) {
         if (log->fd) {
